@@ -3,7 +3,7 @@ cuz i haz no money, yo
 
 
 # Installation 
-For WSL2 use [set-up script](https://github.com/rehanhaider/selenium-wsl2-ubuntu) for selenium:
+For WSL2 use [set-up script](https://github.com/rehanhaider/selenium-wsl2-ubuntu) for selenium.
 
 ```
 python -m venv env
