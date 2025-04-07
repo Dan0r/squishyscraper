@@ -33,6 +33,7 @@ driver = webdriver.Chrome()
 # Open Zalando
 url = "https://www.zalando.de"
 shoe = "Asics Japan S"
+color = "JAPAN S - Trainers - black"
 
 driver.get(url)
 
@@ -63,8 +64,16 @@ searchbox.click()
 searchbox.send_keys(shoe)
 searchbox.send_keys(Keys.ENTER)
 
-# Search for color
-
+# Search for color (of course you can just include it in the search term)
+    # Search XPath globally and match string
+shoe_color = driver.find_element(By.XPATH, f"//h3[text()='{color}']")
+try:
+    WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((shoe_color))
+    ).click()
+    print("shoe_color clicked")
+except Exception as e:
+    print("shoe_color not clicked",e)
 
 time.sleep(3)
 driver.quit()
