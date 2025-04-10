@@ -34,6 +34,7 @@ driver = webdriver.Chrome()
 url = "https://www.zalando.de"
 shoe = "Asics Japan S"
 color = "JAPAN S - Trainers - black"
+size = 45
 
 driver.get(url)
 
@@ -41,7 +42,7 @@ driver.get(url)
 try:
     # Wait for parent to appear
     WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "#usercentrics-root"))
+            EC.presence_of_element_located((By.ID, "usercentrics-root"))
         )
         
     host = driver.find_element(By.CSS_SELECTOR, '#usercentrics-root')
@@ -73,7 +74,34 @@ try:
     ).click()
     print("shoe_color clicked")
 except Exception as e:
-    print("shoe_color not clicked",e)
+    print("shoe_color not clicked", e)
+
+# Search shoe size, notice if out of stock
+try:
+    # Select button 
+    WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.ID, "picker-trigger"))
+    ).click()
+    # Search size
+    select_size = driver.find_element(By.XPATH, f"//span[text()={size}]")
+    WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((select_size))
+    ).click()
+    # Determine if out of stock
+        # Navigate back in the tree and find the parent element
+    
+    # !!!Figure out why this Works!!!
+    time.sleep(2)
+    parent_element = driver.find_element(By.XPATH, f"//span[text()='{size}']/ancestor::*[@data-is-selected]")
+    print(parent_element.get_attribute("data-is-selected"))
+    print("Button clicked")
+except Exception as e:
+    print("Button not clicked", e)
+
+
+
+
+# Read and save price 
 
 time.sleep(3)
 driver.quit()
