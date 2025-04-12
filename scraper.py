@@ -92,8 +92,12 @@ try:
     
     # !!!Figure out why this Works!!!
     time.sleep(2)
-    parent_element = driver.find_element(By.XPATH, f"//span[text()='{size}']/ancestor::*[@data-is-selected]")
-    print(parent_element.get_attribute("data-is-selected"))
+    parent_element = driver.find_element(By.XPATH, f"//span[text()={size}]/ancestor::div[@data-is-selected]")
+    if parent_element.get_attribute("data-is-selected") == "true":
+        print("shoe is in stock")
+    else:
+        print("shoe is not in stock")
+
     print("Button clicked")
 except Exception as e:
     print("Button not clicked", e)
