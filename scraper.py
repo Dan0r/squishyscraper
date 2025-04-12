@@ -15,6 +15,12 @@ def check_cookie(c):
         return root.find_element(By.CSS_SELECTOR, "[data-testid='uc-deny-all-button']").is_enabled()
     except Exception:
         return False
+# function to convert price into float
+def parse_price(price):
+    # remove Euro, replace comma with dot, remove blank_space
+    price = price.replace("€", "").replace(",",".").strip()
+        # convert into float
+    return float(price)
 
 
 ## Setup chrome options for WSL2
@@ -64,7 +70,6 @@ searchbox = driver.find_element("id","header-search-input")
 searchbox.click()
 searchbox.send_keys(shoe)
 searchbox.send_keys(Keys.ENTER)
-
 # Search for color (of course you can just include it in the search term)
     # Search XPath globally and match string
 shoe_color = driver.find_element(By.XPATH, f"//h3[text()='{color}']")
@@ -89,23 +94,18 @@ try:
     ).click()
     # Determine if out of stock
         # Navigate back in the tree and find the parent element
-    
-    # !!!Figure out why this Works!!!
-    time.sleep(2)
     parent_element = driver.find_element(By.XPATH, f"//span[text()={size}]/ancestor::div[@data-is-selected]")
+        # the css-element "data-is-selected" switches from true to false
     if parent_element.get_attribute("data-is-selected") == "true":
         print("shoe is in stock")
     else:
         print("shoe is not in stock")
-
-    print("Button clicked")
 except Exception as e:
     print("Button not clicked", e)
-
-
-
-
 # Read and save price 
-
+price = driver.find_element(By.CSS_SELECTOR, "[data-testid='pdp-price-container'] p span")
+price = parse_price(price.text)
+print(price)
+    # Navigate to span an dprindw
 time.sleep(3)
 driver.quit()

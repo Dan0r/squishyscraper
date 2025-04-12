@@ -30,3 +30,4 @@ THis is a boolean value: The data is either there, or its not. Webdevelopers oft
 Also im Prinzip haben sie mit der Bezahlung nur einen booleschen Wert umgelegt, der dann ein Dominoeffekt anstöst und diesen Artikel lud.
 7. IF you declared a variable and print(variable) it will most of the time only return the selenium WebElement. To paste out what this WebElement contains, use .text method
 8. use /ancestor to navigate up the DOM
+9. It is said that CSS_SELECTOR is faster than XPATH: If a cssselected element has nearby siblings, just select the using p span div or something similar after the css selector
