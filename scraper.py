@@ -1,6 +1,9 @@
 import os
 import requests
 import time
+from dotenv import load_dotenv
+
+from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
@@ -35,13 +38,18 @@ webdriver_service = Service(f"{homedir}/chromedriver-linux64/chromedriver")
 
 # Choose Chrome Browser
 driver = webdriver.Chrome()
-
 # Open Zalando
 url = "https://www.zalando.de"
 shoe = "Asics Japan S"
 color = "JAPAN S - Trainers - black"
 size = 45
+default_price = 79.95
 
+#email-app-password
+load_dotenv()
+
+
+# start driver
 driver.get(url)
 
 # Navigate into Shadow DOM to select cookie-button 
@@ -104,8 +112,22 @@ except Exception as e:
     print("Button not clicked", e)
 # Read and save price 
 price = driver.find_element(By.CSS_SELECTOR, "[data-testid='pdp-price-container'] p span")
+# Convert euro to float
 price = parse_price(price.text)
-print(price)
-    # Navigate to span an dprindw
+# store price and date of scrape in a dictionary
+date = datetime.now().strftime("%d-%m-%Y")
+prices = {}
+prices = {"price": price,
+          "date": date}
+# if the price is lower than the default, send me an e-mail with the price and the url
+if prices["price"] < default_price:
+    print(prices)
+else:
+    print("deal")
+
+
+
+
+
 time.sleep(3)
 driver.quit()

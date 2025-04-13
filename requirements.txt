@@ -1,3 +1,6 @@
-requests
-selenium
+ requests
+ os
+ time
+ selenium
+ python-dotenv
 
