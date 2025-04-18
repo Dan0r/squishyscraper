@@ -1,3 +1,4 @@
+env
 .env
 chrome-linux64
 chromedriver-linux64
