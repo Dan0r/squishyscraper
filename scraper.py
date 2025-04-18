@@ -1,7 +1,12 @@
 import os
+from dotenv import find_dotenv, load_dotenv
 import requests
 import time
-from dotenv import load_dotenv
+import smtplib
+from email.message import EmailMessage
+import ssl
+
+
 
 from datetime import datetime
 from selenium import webdriver
@@ -28,11 +33,9 @@ def parse_price(price):
 
 ## Setup chrome options for WSL2
 chrome_options = Options()
-chrome_options.add_argument("--headless")  # Ensure GUI is off
-chrome_options.add_argument("--no-sandbox")
 
 # Set path to chromedriver as per your configuration
-homedir = os.path.expanduser("~")
+homedir = os.path.expanduser("~/programming/squishyscraper")
 chrome_options.binary_location = f"{homedir}/chrome-linux64/chrome"
 webdriver_service = Service(f"{homedir}/chromedriver-linux64/chromedriver")
 
@@ -45,12 +48,13 @@ color = "JAPAN S - Trainers - black"
 size = 45
 default_price = 79.95
 
-#email-app-password
+# load up .env
 load_dotenv()
 
 
 # start driver
 driver.get(url)
+
 
 # Navigate into Shadow DOM to select cookie-button 
 try:
@@ -121,13 +125,37 @@ prices = {"price": price,
           "date": date}
 # if the price is lower than the default, send me an e-mail with the price and the url
 if prices["price"] < default_price:
-    print(prices)
+    current_price = prices["price"]
+    # configure e-mail
+    sender = os.getenv("email-sender")
+    receiver = os.getenv("email-receiver")
+    password = os.getenv("app-password")
+    current_url = driver.current_url
+    subject = "👟 Zalando-Scraper 👟"
+    body = f"""\
+    <html>
+        <body>
+            <p>The <strong>{shoe}</strong> costs only <strong>{current_price}€</strong> right now.
+            👉<a href="{current_url}">Path</a>
+            </p>
+        </body>
+    </html>
+    """
+
+    msg = EmailMessage()
+    msg['From'] = sender
+    msg['To'] = receiver 
+    msg['Subject'] = subject 
+    msg.add_alternative(body, subtype='html')
+    
+    # encrypt
+    context = ssl.create_default_context()
+
+    # send e-mail via smtp
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as smtp:
+        smtp.login(sender, password)
+        smtp.sendmail(sender, receiver, msg.as_string())
+    print("email sent")
 else:
-    print("deal")
-
-
-
-
-
-time.sleep(3)
+    print("price is same or higher than default_price")
 driver.quit()

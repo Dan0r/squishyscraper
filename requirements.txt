@@ -1,6 +1,3 @@
- requests
- os
- time
- selenium
- python-dotenv
+requests==2.32.3
+selenium==4.30.0
 
