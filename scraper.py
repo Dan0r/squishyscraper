@@ -5,6 +5,7 @@ import time
 import smtplib
 from email.message import EmailMessage
 import ssl
+import sqlite3
 
 
 
@@ -41,6 +42,8 @@ webdriver_service = Service(f"{homedir}/chromedriver-linux64/chromedriver")
 
 # Choose Chrome Browser
 driver = webdriver.Chrome()
+
+
 # Open Zalando
 url = "https://www.zalando.de"
 shoe = "Asics Japan S"
@@ -99,7 +102,7 @@ try:
     WebDriverWait(driver, 10).until(
         EC.element_to_be_clickable((By.ID, "picker-trigger"))
     ).click()
-    # Search size
+    # Search siz
     select_size = driver.find_element(By.XPATH, f"//span[text()={size}]")
     WebDriverWait(driver, 10).until(
         EC.element_to_be_clickable((select_size))
@@ -126,6 +129,13 @@ prices = {"price": price,
 # if the price is lower than the default, send me an e-mail with the price and the url
 if prices["price"] < default_price:
     current_price = prices["price"]
+
+    # save data in sql-database called "shoes.db"
+    with sqlite3.connect("shoes.db") as con:
+        cur = con.cursor()
+        cur.execute("INSERT INTO shoes (price, date) VALUES (?, ?)", (prices["price"], prices["date"]))
+        
+
     # configure e-mail
     sender = os.getenv("email-sender")
     receiver = os.getenv("email-receiver")
