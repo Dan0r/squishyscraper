@@ -31,3 +31,4 @@ Also im Prinzip haben sie mit der Bezahlung nur einen booleschen Wert umgelegt, 
 7. IF you declared a variable and print(variable) it will most of the time only return the selenium WebElement. To paste out what this WebElement contains, use .text method
 8. use /ancestor to navigate up the DOM
 9. It is said that CSS_SELECTOR is faster than XPATH: If a cssselected element has nearby siblings, just select the using p span div or something similar after the css selector
+10. Could deplo on AWS

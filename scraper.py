@@ -33,7 +33,6 @@ def parse_price(price):
 
 ## Setup chrome options for WSL2
 chrome_options = Options()
-chrome_options.add_argument("--headless")
 # Set path to chromedriver as per your configuration
 homedir = os.path.expanduser("~/programming/squishyscraper")
 chrome_options.binary_location = f"{homedir}/chrome-linux64/chrome"
@@ -41,6 +40,7 @@ webdriver_service = Service(f"{homedir}/chromedriver-linux64/chromedriver")
 
 # Choose Chrome Browser
 driver = webdriver.Chrome()
+
 
 # Open Zalando
 url = "https://www.zalando.de"
