@@ -18,15 +18,14 @@ But --headless=new doesn't seem to work with chromedriver-linux64.
 Then execute the script. 
 ```
 python scraper.py
-
 ```
+
 # How to read
 The below code sets the path to the chromedriver. I use the absolute path.
 ```
 homedir = os.path.expanduser("~/programming/squishyscraper")
 chrome_options.binary_location = f"{homedir}/chrome-linux64/chrome"
 webdriver_service = Service(f"{homedir}/chromedriver-linux64/chromedriver")
-
 ```
 Because we do not want to give our e-mail-adress, app-password and the sender's email-address
 away we store the values of these variables in .env. The following command loads the variables inside .env: 
