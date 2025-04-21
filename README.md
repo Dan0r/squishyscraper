@@ -53,5 +53,5 @@ After that I save the data to an SQLite3 database. Windows Task Scheduler (cuz I
 Planning to run this as a cron job on a Raspi 5 though.
 
 # Future plans
-I plan to deploy this script on AWS. EC2 seems to be a good option to run it.
+I plan to deploy this script on AWS. [EC2](https://medium.com/@angelaniederberger/automated-web-scraping-with-aws-72b7f80c2927) seems to be a good option to run it.
 
