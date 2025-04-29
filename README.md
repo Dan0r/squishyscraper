@@ -1,5 +1,4 @@
 # Scrape a shoe from Zalando
-cuz i haz no money, yo
 
 
 # Installation 
